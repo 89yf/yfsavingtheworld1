@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Study Productively</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+	<h1>Study Productively</h1>
+	<form action="/add" method="POST">
+		<label for="subject">Subject:</label>
+		<input type="text" id="subject" name="subject" required>
+		<label for="duration">Duration:</label>
+		<input type="number" id="duration" name="duration" min="1" max="24" required>
+		<label for="goal">Goal:</label>
+		<input type="text" id="goal" name="goal" required>
+		<button type="submit">Add</button>
+	</form>
+	<ul>
+		{% for study_session in study_sessions %}
+			<li>
+				<span class="subject">{{ study_session.subject }}</span>
+				<span class="duration">, {{ study_session.duration }} hours</span>
+				<span class="goal">, {{ study_session.goal }}</span>
+			</li>
+		{% endfor %}
+	</ul>
+ <div class="video-box">
+   <h2>Listen as you study!:</h2>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/KaSFoOF6Yw0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+<h3>Stopwatch</h3>
+<script type="text/javascript">
+		var milliseconds = 0;
+		var seconds = 0;
+		var minutes = 0;
+		var hours = 0;
+		var timer;
+
+		function start() {
+			if (!timer) {
+				timer = setInterval(run, 10);
+			}
+		}
+
+		function run() {
+			document.getElementById("stopwatch").innerHTML = hours + ":" + minutes + ":" + seconds + ":" + milliseconds;
+			milliseconds++;
+
+			if (milliseconds == 100) {
+				milliseconds = 0;
+				seconds++;
+			}
+
+			if (seconds == 60) {
+				seconds = 0;
+				minutes++;
+			}
+
+			if (minutes == 60) {
+				minutes = 0;
+				hours++;
+			}
+		}
+
+		function stop() {
+			clearInterval(timer);
+			timer = false;
+		}
+
+		function reset() {
+			stop();
+			milliseconds = 0;
+			seconds = 0;
+			minutes = 0;
+			hours = 0;
+			document.getElementById("stopwatch").innerHTML = "00:00:00:00";
+		}
+	</script>
+  	<p id="stopwatch">00:00:00:00</p>
+	<button onclick="start()">Start</button>
+	<button onclick="stop()">Stop</button>
+	<button onclick="reset()">Reset</button>
+</body>
+</html>
